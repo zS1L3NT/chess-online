@@ -1,5 +1,8 @@
 package board;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pieces.King;
 
 public enum Team {
@@ -37,9 +40,7 @@ public enum Team {
     };
 
     public abstract int direction();
-
     public abstract boolean is_white();
-
     public boolean is_black() {
         return !is_white();
     }
@@ -58,6 +59,24 @@ public enum Team {
                 return piece.position;
         }
         return -1;
+    }
+
+    public List<Move> all_legal_moves(Board board) {
+        List<Move> moves = new ArrayList<Move>();
+        for (int i = 0; i < 64; i++) {
+            Tile tile = board.getTile(i);
+            if (tile.is_empty()) continue;
+            if (tile.piece.team != this) continue;
+            List<Move> legal_moves = tile.piece.legal_moves(board);
+            if (legal_moves.size() == 0) continue;
+            for (int j = 0; j < legal_moves.size(); j++) {
+                moves.add(legal_moves.get(j));
+            }
+        }
+
+        // TODO For each move, check if King is safe
+
+        return moves;
     }
 
     public Team enemy() {

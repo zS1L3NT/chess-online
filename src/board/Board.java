@@ -1,12 +1,8 @@
 package board;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import board.Move.AttackMove;
 import board.Move.MajorMove;
 import board.Tile.*;
-import pieces.*;
 
 public class Board {
     private Tile[] board = new Tile[64];
@@ -15,46 +11,8 @@ public class Board {
     public Board() {
         game = new GameMaster();
         for (int i = 0; i < 64; i++) empty_tile(i);
-
-        set_tile(new Rook(0, Team.BLACK), 0);
-        set_tile(new Knight(1, Team.BLACK), 1);
-        set_tile(new Bishop(2, Team.BLACK), 2);
-        set_tile(new Queen(3, Team.BLACK), 3);
-        set_tile(new King(4, Team.BLACK), 4);
-        set_tile(new Bishop(5, Team.BLACK), 5);
-        set_tile(new Knight(6, Team.BLACK), 6);
-        set_tile(new Rook(7, Team.BLACK), 7);
-        for (int i = 8; i < 16; i++) {
-            set_tile(new Pawn(i, Team.BLACK), i);
-        }
-        for (int i = 48; i < 56; i++) {
-            set_tile(new Pawn(i, Team.WHITE), i);
-        }
-        set_tile(new Rook(56, Team.WHITE), 56);
-        set_tile(new Knight(57, Team.WHITE), 57);
-        set_tile(new Bishop(58, Team.WHITE), 58);
-        set_tile(new Queen(59, Team.WHITE), 59);
-        set_tile(new King(60, Team.WHITE), 60);
-        set_tile(new Bishop(61, Team.WHITE), 61);
-        set_tile(new Knight(62, Team.WHITE), 62);
-        set_tile(new Rook(63, Team.WHITE), 63);
+        game.set_up(this);
     }
-
-    public List<Move> all_legal_moves(Team team) {
-        List<Move> moves = new ArrayList<Move>();
-        for (int i = 0; i < 64; i++) {
-            Tile tile = getTile(i);
-            if (tile.is_empty()) continue;
-            if (tile.piece.team != team) continue;
-            List<Move> legal_moves = tile.piece.legal_moves(this);
-            if (legal_moves.size() == 0) continue;
-            for (int j = 0; j < legal_moves.size(); j++) {
-                moves.add(legal_moves.get(j));
-            }
-        }
-        return moves;
-    }
-
     public void print() {
         System.out.println("  +----+----+----+----+----+----+----+----+");
 
