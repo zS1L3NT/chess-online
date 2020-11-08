@@ -3,6 +3,8 @@ package board;
 import java.util.ArrayList;
 import java.util.List;
 
+import board.Move.AttackMove;
+import board.Move.MajorMove;
 import board.Tile.*;
 import pieces.*;
 
@@ -114,5 +116,27 @@ public class Board {
 
     public Tile getTile(int position) {
         return this.board[position];
+    }
+
+    public int execute(Move move) {
+        if (move instanceof MajorMove) return execute((MajorMove) move);
+        if (move instanceof AttackMove) return execute((AttackMove) move);
+        return 0;
+    }
+
+    private int execute(MajorMove move) {
+        int old_position = move.predator.position;
+        empty_tile(old_position);
+        set_tile(move.predator, move.destination);
+        move.predator.set_position(move.destination);
+        return old_position;
+    }
+
+    private int execute(AttackMove move) {
+        int old_position = move.predator.position;
+        empty_tile(old_position);
+        set_tile(move.predator, move.prey.position);
+        move.predator.set_position(move.prey.position);
+        return old_position;
     }
 }

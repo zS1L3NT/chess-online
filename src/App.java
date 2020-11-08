@@ -27,7 +27,7 @@ public class App {
                 wait(1000);
             }
 
-            move.execute();
+            board.execute(move);
             game.change_move_maker();
             game.set_current_selected(null);
         }

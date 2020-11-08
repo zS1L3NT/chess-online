@@ -11,7 +11,6 @@ public abstract class Move {
         this.destination = destination;
     }
 
-    public abstract void execute();
     @Override
     public abstract String toString();
 
@@ -19,12 +18,6 @@ public abstract class Move {
 
         public MajorMove(Board board, Piece predator, int destination) {
             super(board, predator, destination);
-        }
-
-        public void execute() {
-            this.board.empty_tile(predator.position);
-            this.board.set_tile(predator, this.destination);
-            predator.set_position(this.destination);
         }
 
         @Override
@@ -40,12 +33,6 @@ public abstract class Move {
         public AttackMove(Board board, Piece predator, Piece prey) {
             super(board, predator, prey.position);
             this.prey = prey;
-        }
-
-        public void execute() {
-            this.board.empty_tile(predator.position);
-            this.board.set_tile(predator, prey.position);
-            predator.set_position(prey.position);
         }
 
         @Override
