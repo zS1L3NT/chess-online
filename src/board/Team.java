@@ -1,5 +1,7 @@
 package board;
 
+import pieces.King;
+
 public enum Team {
     BLACK {
         @Override
@@ -35,10 +37,27 @@ public enum Team {
     };
 
     public abstract int direction();
+
     public abstract boolean is_white();
-    
+
     public boolean is_black() {
         return !is_white();
+    }
+
+    public int king_position(Board board) {
+        for (int i = 0; i < 64; i++) {
+            Tile tile = board.getTile(i);
+            if (tile.is_empty())
+                continue;
+
+            Piece piece = tile.piece;
+            if (piece.team != this)
+                continue;
+
+            if (piece instanceof King)
+                return piece.position;
+        }
+        return -1;
     }
 
     public Team enemy() {
