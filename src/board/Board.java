@@ -12,31 +12,30 @@ public class Board {
 
     public Board() {
         game = new GameMaster();
-        for (int i = 0; i < 64; i++) {
-            board[i] = new EmptyTile(i, null);
-        }
-        this.board = perma_tile(new OccuTile(0, new Rook(0, Team.BLACK)), 0);
-        this.board = perma_tile(new OccuTile(1, new Knight(1, Team.BLACK)), 1);
-        this.board = perma_tile(new OccuTile(2, new Bishop(2, Team.BLACK)), 2);
-        this.board = perma_tile(new OccuTile(3, new Queen(3, Team.BLACK)), 3);
-        this.board = perma_tile(new OccuTile(4, new King(4, Team.BLACK)), 4);
-        this.board = perma_tile(new OccuTile(5, new Bishop(5, Team.BLACK)), 5);
-        this.board = perma_tile(new OccuTile(6, new Knight(6, Team.BLACK)), 6);
-        this.board = perma_tile(new OccuTile(7, new Rook(7, Team.BLACK)), 7);
+        for (int i = 0; i < 64; i++) empty_tile(i);
+
+        set_tile(new Rook(0, Team.BLACK), 0);
+        set_tile(new Knight(1, Team.BLACK), 1);
+        set_tile(new Bishop(2, Team.BLACK), 2);
+        set_tile(new Queen(3, Team.BLACK), 3);
+        set_tile(new King(4, Team.BLACK), 4);
+        set_tile(new Bishop(5, Team.BLACK), 5);
+        set_tile(new Knight(6, Team.BLACK), 6);
+        set_tile(new Rook(7, Team.BLACK), 7);
         for (int i = 8; i < 16; i++) {
-            this.board = perma_tile(new OccuTile(i, new Pawn(i, Team.BLACK)), i);
+            set_tile(new Pawn(i, Team.BLACK), i);
         }
         for (int i = 48; i < 56; i++) {
-            this.board = perma_tile(new OccuTile(i, new Pawn(i, Team.WHITE)), i);
+            set_tile(new Pawn(i, Team.WHITE), i);
         }
-        this.board = perma_tile(new OccuTile(56, new Rook(56, Team.WHITE)), 56);
-        this.board = perma_tile(new OccuTile(57, new Knight(57, Team.WHITE)), 57);
-        this.board = perma_tile(new OccuTile(58, new Bishop(58, Team.WHITE)), 58);
-        this.board = perma_tile(new OccuTile(59, new Queen(59, Team.WHITE)), 59);
-        this.board = perma_tile(new OccuTile(60, new King(60, Team.WHITE)), 60);
-        this.board = perma_tile(new OccuTile(61, new Bishop(61, Team.WHITE)), 61);
-        this.board = perma_tile(new OccuTile(62, new Knight(62, Team.WHITE)), 62);
-        this.board = perma_tile(new OccuTile(63, new Rook(63, Team.WHITE)), 63);
+        set_tile(new Rook(56, Team.WHITE), 56);
+        set_tile(new Knight(57, Team.WHITE), 57);
+        set_tile(new Bishop(58, Team.WHITE), 58);
+        set_tile(new Queen(59, Team.WHITE), 59);
+        set_tile(new King(60, Team.WHITE), 60);
+        set_tile(new Bishop(61, Team.WHITE), 61);
+        set_tile(new Knight(62, Team.WHITE), 62);
+        set_tile(new Rook(63, Team.WHITE), 63);
     }
 
     public List<Move> all_legal_moves(Team team) {
@@ -105,13 +104,12 @@ public class Board {
             System.out.println("    H    G    F    E    D    C    B    A ");
     }
 
-    private Tile[] perma_tile(Tile tile, int position) {
-        this.board[position] = tile;
-        return this.board;
+    public void set_tile(Piece piece, int position) {
+        this.board[position] = new OccuTile(position, piece);
     }
 
-    public void set_tile(Tile tile, int position) {
-        this.board[position] = tile;
+    public void empty_tile(int position) {
+        this.board[position] = new EmptyTile(position, null);
     }
 
     public Tile getTile(int position) {

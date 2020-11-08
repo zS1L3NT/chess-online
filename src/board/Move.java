@@ -1,7 +1,5 @@
 package board;
 
-import board.Tile.*;
-
 public abstract class Move {
     public Board board;
     public Piece predator;
@@ -24,8 +22,8 @@ public abstract class Move {
         }
 
         public void execute() {
-            this.board.set_tile(new EmptyTile(predator.position, null), predator.position);
-            this.board.set_tile(new OccuTile(this.destination, predator), this.destination);
+            this.board.empty_tile(predator.position);
+            this.board.set_tile(predator, this.destination);
             predator.set_position(this.destination);
         }
 
@@ -45,8 +43,8 @@ public abstract class Move {
         }
 
         public void execute() {
-            this.board.set_tile(new EmptyTile(predator.position, null), predator.position);
-            this.board.set_tile(new OccuTile(prey.position, predator), prey.position);
+            this.board.empty_tile(predator.position);
+            this.board.set_tile(predator, prey.position);
             predator.set_position(prey.position);
         }
 
