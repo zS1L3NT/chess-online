@@ -47,4 +47,12 @@ public class GameMaster {
         board.set_tile(new Knight(62, Team.WHITE), 62);
         board.set_tile(new Rook(63, Team.WHITE), 63);
     }
+
+    // * Test
+    public void test(Board board) {
+        board.set_tile(new Rook(4, Team.BLACK), 4);
+        board.set_tile(new King(60, Team.WHITE), 60);
+        board.set_tile(new Bishop(61, Team.WHITE), 61);
+        board.set_tile(new Pawn(59, Team.WHITE), 59);
+    }
 }
