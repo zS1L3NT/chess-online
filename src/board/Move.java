@@ -1,6 +1,6 @@
 package board;
 
-public abstract class Move {
+public class Move {
     public Board board;
     public Piece predator;
     public int destination;
@@ -11,8 +11,14 @@ public abstract class Move {
         this.destination = destination;
     }
 
-    @Override
-    public abstract String toString();
+    // @Override
+    // public abstract String toString();
+
+    public Board simulate(Board board) {
+        Board x = new Board("test", board.copy());
+        x.execute(this);
+        return x;
+    }
 
     public static class MajorMove extends Move {
 

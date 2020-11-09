@@ -21,6 +21,7 @@ public abstract class Tile {
 
         public OccuTile(int position, Piece piece) {
             super(position, piece);
+            piece.set_position(position);
         }
     
         @Override
