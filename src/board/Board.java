@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.List;
+
+import pieces.King;
 
 public class Board implements Serializable {
     /**
@@ -32,8 +35,11 @@ public class Board implements Serializable {
     }
 
     public void print() {
-        System.out.println("  " + name + " board");
         System.out.println("  +----+----+----+----+----+----+----+----+");
+        List<Move> safe_moves = game.move_maker.all_safe_moves(this);
+        List<Move> piece_safe_moves = null;
+        if (game.current_selected != null)
+            piece_safe_moves = game.current_selected.safe_moves(this);
 
         for (int i = 0; i < 8; i++) {
             int col = i * 8;
@@ -49,16 +55,30 @@ public class Board implements Serializable {
 
                 System.out.print("| ");
 
+                if (game.current_selected == null) {
+                    for (int k = 0; k < safe_moves.size(); k++) {
+                        Move move = safe_moves.get(k);
+                        if (tile.position() == move.location())
+                            System.out.print(Color.GREEN_BACKGROUND);
+                    }
+                } else {
+                    for (int k = 0; k < piece_safe_moves.size(); k++) {
+                        Move move = piece_safe_moves.get(k);
+                        if (move.destination() == tile.position()) {
+                            if (tile.is_occupied())
+                                System.out.print(Color.RED_BACKGROUND);
+                            else
+                                System.out.print(Color.GREEN_BACKGROUND);
+                        }
+                    }
+                }
 
-                
                 if (tile.is_occupied())
                     System.out.print(tile.boardKey() + " ");
                 else
                     System.out.print("  ");
                 System.out.print(Color.RESET);
 
-
-                
                 System.out.print(" ");
 
             }

@@ -16,21 +16,20 @@ public class App {
             print_visuals();
 
             game.set_current_selected(select_piece(board));
-            return;
 
-            // print_visuals();
+            print_visuals();
 
-            // move = select_move(board);
-            // if (move == null) continue;
+            move = select_move(board);
+            if (move == null) continue;
 
-            // for (int i = 5; i > 0; i--) {
-            //     System.out.println("Revering board in " + i + " seconds");
-            //     wait(1000);
-            // }
+            for (int i = 5; i > 0; i--) {
+                System.out.println("Flipping board in " + i + " seconds");
+                wait(1000);
+            }
 
-            // // board.execute(move);
-            // game.change_move_maker();
-            // game.set_current_selected(null);
+            board.execute(move);
+            game.change_move_maker();
+            game.set_current_selected(null);
         }
 
     }
@@ -73,8 +72,6 @@ public class App {
             break;
         }
 
-        piece.safe_moves(board).forEach(System.out::println);
-
         return piece;
     }
 
@@ -84,10 +81,6 @@ public class App {
         int destination;
 
         System.out.println("Type X to select another piece\n");
-        System.out.println("Board: " + board.name);
-        System.out.println(game.current_selected);
-        System.out.println("H3: " + board.tile(BoardUtils.to_position("H3")));
-        System.out.println("F1: " + board.tile(BoardUtils.to_position("F1")));
 
         for (;;) {
             System.out.print("Move to: ");
@@ -127,9 +120,18 @@ public class App {
     }
 
     private final static void print_visuals() {
-        // System.out.print("\033[H\033[2J");
+        System.out.print("\033[H\033[2J");
         board.print();
-        System.out.println("\nTurn: " + game.move_maker + "\n");
+        System.out.println("\nTurn: " + game.move_maker);
+
+        boolean king_safe = game.move_maker.is_safe(board, game.move_maker.king_position(board));
+        System.out.print("King status: ");
+
+        if (king_safe) System.out.print(Color.GREEN);
+        else System.out.print(Color.RED);
+
+        System.out.println((king_safe ? "Safe" : "Danger") + "\n");
+        System.out.print(Color.RESET);
     }
 
     public final static void wait(int ms) {
