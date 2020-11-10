@@ -1,66 +1,56 @@
 package board;
 
-public abstract class Tile {
-    public int position;
-    public Piece piece;
+import java.io.Serializable;
+
+public class Tile implements Serializable {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 2400831564997387196L;
+    private int position;
+    private Piece piece;
 
     public Tile(int position, Piece piece) {
         this.position = position;
         this.piece = piece;
+        if (is_occupied()) this.piece.set_position(position);
+    }
+    
+    public boolean is_occupied() {
+        return this.piece != null;
     }
 
     public boolean is_empty() {
-        return !is_occupied();
-    }
-    
-    public abstract boolean is_occupied();
-    public abstract String toString();
-    public abstract String boardKey();
-
-    public static class OccuTile extends Tile {
-
-        public OccuTile(int position, Piece piece) {
-            super(position, piece);
-            piece.set_position(position);
-        }
-    
-        @Override
-        public boolean is_occupied() {
-            return true;
-        }
-
-        @Override
-        public String toString() {
-            return "Tile with " + piece;
-        }
-
-        public String boardKey() {
-            return piece.boardKey();
-        }
-
-        
+        return this.piece == null;
     }
 
-    public static class EmptyTile extends Tile {
-
-        public EmptyTile(int position, Piece piece) {
-            super(position, piece);
-        }
-    
-        @Override
-        public boolean is_occupied() {
-            return false;
-        }
-
-        @Override
-        public String toString() {
-            return "Empty Tile";
-        }
-
-        public String boardKey() {
-            return " ";
-        }
-    
+    @Override
+    public String toString() {
+        if (is_empty()) return "Empty Tile";
+        return "Tile with " + this.piece;
     }
+
+    public String boardKey() {
+        if (is_empty()) return " ";
+        return this.piece.boardKey();
+    }
+
+    public int position() {
+        return this.position;
+    }
+
+    public Piece piece() {
+        return this.piece;
+    }
+
+    // public Tile deep_clone() throws IOException, ClassNotFoundException {
+    //     ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    //     ObjectOutputStream out = new ObjectOutputStream(bos);
+    //     out.writeObject(this);
+
+    //     ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+    //     ObjectInputStream in = new ObjectInputStream(bis);
+    //     return (Tile) in.readObject();
+    // }
     
 }

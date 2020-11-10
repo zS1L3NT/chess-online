@@ -9,32 +9,33 @@ public class App {
     private static GameMaster game;
 
     public static void main(String[] args) {
-        board = new Board();
+        board = new Board("main");
         game = board.game;
 
         for (;;) {
             print_visuals();
 
             game.set_current_selected(select_piece(board));
+            return;
 
-            print_visuals();
+            // print_visuals();
 
-            move = select_move(board);
-            if (move == null) continue;
+            // move = select_move(board);
+            // if (move == null) continue;
 
-            for (int i = 5; i > 0; i--) {
-                System.out.println("Revering board in " + i + " seconds");
-                wait(1000);
-            }
+            // for (int i = 5; i > 0; i--) {
+            //     System.out.println("Revering board in " + i + " seconds");
+            //     wait(1000);
+            // }
 
-            board.execute(move);
-            game.change_move_maker();
-            game.set_current_selected(null);
+            // // board.execute(move);
+            // game.change_move_maker();
+            // game.set_current_selected(null);
         }
 
     }
 
-    public static Piece select_piece(Board board) {
+    public final static Piece select_piece(Board board) {
         Piece piece;
 
         for (;;) {
@@ -47,14 +48,14 @@ public class App {
             }
 
             int position = BoardUtils.to_position(code);
-            piece = board.getTile(position).piece;
+            piece = board.tile(position).piece();
 
             if (piece == null) {
                 System.out.println("No piece on selected tile!");
                 continue;
             }
 
-            if (piece.team != game.move_maker) {
+            if (piece.team() != game.move_maker) {
                 System.out.println("Piece not on your team!");
                 continue;
             }
@@ -64,18 +65,29 @@ public class App {
                 continue;
             }
 
+            if (piece.safe_moves(board).size() == 0) {
+                System.out.println("King in Danger! Selected piece has no moves which keeps the King safe!");
+                continue;
+            }
+
             break;
         }
+
+        piece.safe_moves(board).forEach(System.out::println);
 
         return piece;
     }
 
-    public final static Move select_move(Board board) {
-        List<Move> legal_moves = game.current_selected.legal_moves(board);
-        List<Integer> legal_positions = game.current_selected.legal_positions(board);
+    public static Move select_move(Board board) {
+        List<Move> safe_moves = game.current_selected.safe_moves(board);
+        List<Integer> safe_positions = game.current_selected.safe_positions(board);
         int destination;
 
         System.out.println("Type X to select another piece\n");
+        System.out.println("Board: " + board.name);
+        System.out.println(game.current_selected);
+        System.out.println("H3: " + board.tile(BoardUtils.to_position("H3")));
+        System.out.println("F1: " + board.tile(BoardUtils.to_position("F1")));
 
         for (;;) {
             System.out.print("Move to: ");
@@ -93,17 +105,17 @@ public class App {
 
             destination = BoardUtils.to_position(code);
 
-            // Check if item in legal_positions
-            if (legal_positions.contains(destination))
+            // Check if item in safe_positions
+            if (safe_positions.contains(destination))
                 break;
             else
                 System.out.println("Invalid move!");
         }
 
         // Find and return move in legal_moves
-        for (int i = 0; i < legal_moves.size(); i++) {
-            if (legal_moves.get(i).destination == destination) {
-                return legal_moves.get(i);
+        for (int i = 0; i < safe_moves.size(); i++) {
+            if (safe_moves.get(i).destination() == destination) {
+                return safe_moves.get(i);
             }
         }
 
@@ -115,7 +127,7 @@ public class App {
     }
 
     private final static void print_visuals() {
-        System.out.print("\033[H\033[2J");
+        // System.out.print("\033[H\033[2J");
         board.print();
         System.out.println("\nTurn: " + game.move_maker + "\n");
     }

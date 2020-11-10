@@ -52,7 +52,8 @@ public class BoardUtils {
 
     public static boolean array_contains(char[] array, char item) {
         for (int i = 0; i < array.length; i++) {
-            if (array[i] == item) return true;
+            if (array[i] == item)
+                return true;
         }
         return false;
     }
@@ -62,7 +63,8 @@ public class BoardUtils {
     }
 
     public final static boolean is_valid_board_code(String code) {
-        if (code.length() != 2) return false;
+        if (code.length() != 2)
+            return false;
 
         char letter;
         int number;
@@ -74,14 +76,17 @@ public class BoardUtils {
             return false;
         }
 
-        if (!array_contains(letters, letter)) return false;
-        if (number <= 0 || number > 8) return false;
+        if (!array_contains(letters, letter))
+            return false;
+        if (number <= 0 || number > 8)
+            return false;
 
         return true;
     }
 
     public final static int to_position(String code) {
-        if (!is_valid_board_code(code)) return -999;
+        if (!is_valid_board_code(code))
+            return -999;
         char letter = code.substring(0, 1).toUpperCase().toCharArray()[0];
         int number = Integer.parseInt(code.substring(1));
         return ((8 - number) * 8) + String.valueOf(letters).indexOf(letter);

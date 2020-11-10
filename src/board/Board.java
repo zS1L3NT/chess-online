@@ -1,10 +1,17 @@
 package board;
 
-import board.Move.AttackMove;
-import board.Move.MajorMove;
-import board.Tile.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class Board {
+public class Board implements Serializable {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 392369079414138857L;
     private Tile[] board = new Tile[64];
     public GameMaster game;
     public String name;
@@ -16,9 +23,12 @@ public class Board {
     public Board(String name, Tile[]... tiles) {
         set_name(name);
         game = new GameMaster();
-        for (int i = 0; i < 64; i++) empty_tile(i);
-        if (tiles.length == 1) board = tiles[0];
-        else game.test(this);
+        for (int i = 0; i < 64; i++)
+            empty_tile(i);
+        if (tiles.length == 1)
+            board = tiles[0];
+        else
+            game.test(this);
     }
 
     public void print() {
@@ -38,11 +48,17 @@ public class Board {
                 Tile tile = this.board[game.move_maker.is_white() ? position : 63 - position];
 
                 System.out.print("| ");
+
+
+                
                 if (tile.is_occupied())
                     System.out.print(tile.boardKey() + " ");
                 else
                     System.out.print("  ");
                 System.out.print(Color.RESET);
+
+
+                
                 System.out.print(" ");
 
             }
@@ -61,31 +77,31 @@ public class Board {
     }
 
     public void set_tile(Piece piece, int position) {
-        this.board[position] = new OccuTile(position, piece);
+        this.board[position] = new Tile(position, piece);
     }
 
     public void empty_tile(int position) {
-        this.board[position] = new EmptyTile(position, null);
+        this.board[position] = new Tile(position, null);
     }
 
-    public Tile getTile(int position) {
+    public Tile tile(int position) {
         return this.board[position];
     }
 
     public void execute(Move move) {
-        if (move instanceof MajorMove) execute((MajorMove) move);
-        if (move instanceof AttackMove) execute((AttackMove) move);
+        Piece predator = tile(move.location()).piece();
+        this.empty_tile(move.location());
+        this.set_tile(predator, move.destination());
+        predator.set_position(move.destination());
     }
 
-    private void execute(MajorMove copy_me) {
-        MajorMove move = new MajorMove(copy_me.board, copy_me.predator, copy_me.destination);
-        this.empty_tile(move.predator.position);
-        this.set_tile(move.predator, move.destination);
-    }
+    public Board deep_clone() throws IOException, ClassNotFoundException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(bos);
+        out.writeObject(this);
 
-    private void execute(AttackMove copy_me) {
-        AttackMove move = new AttackMove(copy_me.board, copy_me.predator, copy_me.prey);
-        this.empty_tile(move.predator.position);
-        this.set_tile(move.predator, move.prey.position);
+        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+        ObjectInputStream in = new ObjectInputStream(bis);
+        return (Board) in.readObject();
     }
 }

@@ -1,8 +1,14 @@
 package board;
 
+import java.io.Serializable;
+
 import pieces.*;
 
-public class GameMaster {
+public class GameMaster implements Serializable {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -6376908339572270453L;
     public Team move_maker;
     public Piece current_selected;
     public Team winner;

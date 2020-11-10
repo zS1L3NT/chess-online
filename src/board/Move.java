@@ -1,50 +1,66 @@
 package board;
 
-public class Move {
-    public Board board;
-    public Piece predator;
-    public int destination;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-    public Move(Board board, Piece predator, int destination) {
+public class Move implements Serializable {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -7188724240010690519L;
+    private Board board;
+    private int location;
+    private int destination;
+
+    public Move(Board board, int location, int destination) {
         this.board = board;
-        this.predator = predator;
+        this.location = location;
         this.destination = destination;
     }
 
-    // @Override
-    // public abstract String toString();
-
     public Board simulate(Board board) {
-        Board x = new Board("test", board.copy());
+        Board x;
+        try {
+            x = board.deep_clone();
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+            return board;
+        }
         x.execute(this);
         return x;
     }
 
-    public static class MajorMove extends Move {
-
-        public MajorMove(Board board, Piece predator, int destination) {
-            super(board, predator, destination);
-        }
-
-        @Override
-        public String toString() {
-            return "Major Move by " + predator + " to " + BoardUtils.to_board_code(destination);
-        }
-
+    @Override
+    public String toString() {
+        if (this.board.tile(destination()).is_occupied())
+            return "Attack by " + this.board.tile(location()).piece() + " against " + this.board.tile(destination()).piece();
+        else
+            return "Move by " + this.board.tile(location()).piece() + " to " + BoardUtils.to_board_code(destination());
     }
 
-    public static class AttackMove extends Move {
-        public Piece prey;
+    public Board board() {
+        return this.board;
+    }
 
-        public AttackMove(Board board, Piece predator, Piece prey) {
-            super(board, predator, prey.position);
-            this.prey = prey;
-        }
+    public int location() {
+        return this.location;
+    }
 
-        @Override
-        public String toString() {
-            return "Attack Move by " + predator + " against " + prey;
-        }
+    public int destination() {
+        return this.destination;
+    }
 
+    public Move deep_clone() throws IOException, ClassNotFoundException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(bos);
+        out.writeObject(this);
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+        ObjectInputStream in = new ObjectInputStream(bis);
+        return (Move) in.readObject();
     }
 }
