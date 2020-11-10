@@ -12,6 +12,7 @@ public abstract class Piece implements Serializable {
     private static final long serialVersionUID = -886455757238864816L;
     private int position;
     private Team team;
+    private int move_count;
 
     public Piece(int position, Team team) {
         this.position = position;
@@ -53,6 +54,14 @@ public abstract class Piece implements Serializable {
 
     public void set_position(int position) {
         this.position = position;
+    }
+
+    public int move_count() {
+        return this.move_count;
+    }
+
+    public void add_move_count() {
+        this.move_count++;
     }
 
     @Override

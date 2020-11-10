@@ -113,6 +113,7 @@ public class Board implements Serializable {
         this.empty_tile(move.location());
         this.set_tile(predator, move.destination());
         predator.set_position(move.destination());
+        predator.add_move_count();
     }
 
     public Board deep_clone() throws IOException, ClassNotFoundException {
