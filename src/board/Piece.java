@@ -35,7 +35,7 @@ public abstract class Piece implements Serializable {
             }
 
             Board simulation = copy.simulate(board);
-            if (this.team.is_safe(simulation, this.team.king_position(simulation)))
+            if (this.team.king_is_safe(simulation))
                 moves.add(move);
         }
         return moves;

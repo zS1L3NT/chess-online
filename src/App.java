@@ -15,19 +15,36 @@ public class App {
         for (;;) {
             print_visuals();
 
+            if (game.move_maker.all_safe_moves(board).size() == 0) {
+                if (game.move_maker.king_is_safe(board)) {
+                    System.out.print(Color.YELLOW);
+                    System.out.println("Stalemate!");
+                    System.out.print(Color.RESET);
+                } else {
+                    System.out.print(Color.RED);
+                    System.out.println("Checkmate!");
+                    System.out.print(Color.RESET);
+                    System.out.println("Winner: " + game.move_maker.enemy() + "!");
+                }
+                return;
+            }
+
             game.set_current_selected(select_piece(board));
 
             print_visuals();
 
             move = select_move(board);
-            if (move == null) continue;
+            if (move == null)
+                continue;
 
-            for (int i = 5; i > 0; i--) {
+            board.execute(move);
+            print_visuals();
+
+            for (int i = 3; i > 0; i--) {
                 System.out.println("Flipping board in " + i + " seconds");
                 wait(1000);
             }
 
-            board.execute(move);
             game.change_move_maker();
             game.set_current_selected(null);
         }
@@ -124,14 +141,21 @@ public class App {
         board.print();
         System.out.println("\nTurn: " + game.move_maker);
 
-        boolean king_safe = game.move_maker.is_safe(board, game.move_maker.king_position(board));
+        boolean king_safe = game.move_maker.king_is_safe(board);
         System.out.print("King status: ");
-
-        if (king_safe) System.out.print(Color.GREEN);
-        else System.out.print(Color.RED);
-
-        System.out.println((king_safe ? "Safe" : "Danger") + "\n");
+        if (king_safe)
+            System.out.print(Color.GREEN);
+        else
+            System.out.print(Color.RED);
+        System.out.println((king_safe ? "Safe" : "Danger"));
         System.out.print(Color.RESET);
+
+        if (game.current_selected == null)
+            System.out.println("Total available moves: " + game.move_maker.all_safe_moves(board).size());
+        else
+            System.out.println("Piece available moves: " + game.current_selected.safe_moves(board).size());
+
+        System.out.println();
     }
 
     public final static void wait(int ms) {

@@ -8,8 +8,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
 
-import pieces.King;
-
 public class Board implements Serializable {
     /**
      *

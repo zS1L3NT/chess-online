@@ -11,7 +11,6 @@ public class GameMaster implements Serializable {
     private static final long serialVersionUID = -6376908339572270453L;
     public Team move_maker;
     public Piece current_selected;
-    public Team winner;
 
     public GameMaster() {
         move_maker = Team.WHITE;
@@ -19,10 +18,6 @@ public class GameMaster implements Serializable {
 
     public void set_current_selected(Piece piece) {
         this.current_selected = piece;
-    }
-
-    public void set_winner(Team team) {
-        this.winner = team;
     }
 
     public void change_move_maker() {
@@ -56,9 +51,9 @@ public class GameMaster implements Serializable {
 
     // * Test
     public void test(Board board) {
+        board.set_tile(new Rook(11, Team.BLACK), 11);
         board.set_tile(new Rook(4, Team.BLACK), 4);
+        board.set_tile(new Rook(48, Team.BLACK), 48);
         board.set_tile(new King(60, Team.WHITE), 60);
-        board.set_tile(new Bishop(61, Team.WHITE), 61);
-        board.set_tile(new Pawn(59, Team.WHITE), 59);
     }
 }

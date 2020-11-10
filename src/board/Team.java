@@ -109,6 +109,10 @@ public enum Team {
         return moves;
     }
 
+    public boolean king_is_safe(Board board) {
+        return is_safe(board, king_position(board));
+    }
+
     public boolean is_safe(Board board, int position) {
         List<Move> enemy_moves = enemy().all_legal_moves(board);
         for (int i = 0; i < enemy_moves.size(); i++) {
