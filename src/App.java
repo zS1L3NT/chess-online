@@ -13,7 +13,7 @@ public class App {
         game = board.game;
 
         for (;;) {
-            print_visuals();
+            print_visuals(true);
 
             if (game.move_maker.all_safe_moves(board).size() == 0) {
                 if (game.move_maker.king_is_safe(board)) {
@@ -31,14 +31,14 @@ public class App {
 
             game.set_current_selected(select_piece(board));
 
-            print_visuals();
+            print_visuals(true);
 
             move = select_move(board);
             if (move == null)
                 continue;
 
             board.execute(move);
-            print_visuals();
+            print_visuals(false);
 
             for (int i = 3; i > 0; i--) {
                 System.out.println("Flipping board in " + i + " seconds");
@@ -136,9 +136,9 @@ public class App {
         return new Scanner(System.in);
     }
 
-    private final static void print_visuals() {
+    private final static void print_visuals(boolean color) {
         System.out.print("\033[H\033[2J");
-        board.print();
+        board.print(color);
         System.out.println("\nTurn: " + game.move_maker);
 
         boolean king_safe = game.move_maker.king_is_safe(board);

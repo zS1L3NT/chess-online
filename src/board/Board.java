@@ -29,10 +29,10 @@ public class Board implements Serializable {
         if (tiles.length == 1)
             board = tiles[0];
         else
-            game.test(this);
+            game.set_up(this);
     }
 
-    public void print() {
+    public void print(boolean color) {
         System.out.println("  +----+----+----+----+----+----+----+----+");
         List<Move> safe_moves = game.move_maker.all_safe_moves(this);
         List<Move> piece_safe_moves = null;
@@ -53,20 +53,22 @@ public class Board implements Serializable {
 
                 System.out.print("| ");
 
-                if (game.current_selected == null) {
-                    for (int k = 0; k < safe_moves.size(); k++) {
-                        Move move = safe_moves.get(k);
-                        if (tile.position() == move.location())
-                            System.out.print(Color.GREEN_BACKGROUND);
-                    }
-                } else {
-                    for (int k = 0; k < piece_safe_moves.size(); k++) {
-                        Move move = piece_safe_moves.get(k);
-                        if (move.destination() == tile.position()) {
-                            if (tile.is_occupied())
-                                System.out.print(Color.RED_BACKGROUND);
-                            else
+                if (color) {
+                    if (game.current_selected == null) {
+                        for (int k = 0; k < safe_moves.size(); k++) {
+                            Move move = safe_moves.get(k);
+                            if (tile.position() == move.location())
                                 System.out.print(Color.GREEN_BACKGROUND);
+                        }
+                    } else {
+                        for (int k = 0; k < piece_safe_moves.size(); k++) {
+                            Move move = piece_safe_moves.get(k);
+                            if (move.destination() == tile.position()) {
+                                if (tile.is_occupied())
+                                    System.out.print(Color.RED_BACKGROUND);
+                                else
+                                    System.out.print(Color.GREEN_BACKGROUND);
+                            }
                         }
                     }
                 }
