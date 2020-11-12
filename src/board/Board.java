@@ -156,13 +156,21 @@ public class Board implements Serializable {
         return new Scanner(System.in);
     }
 
-    public Board deep_clone() throws IOException, ClassNotFoundException {
+    public ByteArrayOutputStream bos() throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(bos);
         out.writeObject(this);
+        return bos;
+    }
 
+    public Board decode(ByteArrayOutputStream bos) throws ClassNotFoundException, IOException {
         ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream in = new ObjectInputStream(bis);
         return (Board) in.readObject();
+    }
+
+    public Board deep_clone() throws IOException, ClassNotFoundException {
+        ByteArrayOutputStream bos = bos();
+        return decode(bos);
     }
 }
