@@ -15,8 +15,14 @@ public class Move implements Serializable {
     private Board board;
     private int location;
     private int destination;
+    private String name;
 
-    public Move(Board board, int location, int destination) {
+    public void set_name(String name) {
+        this.name = name;
+    }
+
+    public Move(String name, Board board, int location, int destination) {
+        set_name(name);
         this.board = board;
         this.location = location;
         this.destination = destination;
@@ -40,6 +46,10 @@ public class Move implements Serializable {
             return "Attack by " + this.board.tile(location()).piece() + " against " + this.board.tile(destination()).piece();
         else
             return "Move by " + this.board.tile(location()).piece() + " to " + BoardUtils.to_board_code(destination());
+    }
+
+    public String name() {
+        return this.name;
     }
 
     public Board board() {

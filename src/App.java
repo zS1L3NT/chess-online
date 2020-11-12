@@ -132,10 +132,6 @@ public class App {
         return null;
     }
 
-    private final static Scanner input() {
-        return new Scanner(System.in);
-    }
-
     private final static void print_visuals(boolean color) {
         System.out.print("\033[H\033[2J");
         board.print(color);
@@ -156,6 +152,10 @@ public class App {
             System.out.println("Piece available moves: " + game.current_selected.safe_moves(board).size());
 
         System.out.println();
+    }
+
+    private final static Scanner input() {
+        return new Scanner(System.in);
     }
 
     public final static void wait(int ms) {

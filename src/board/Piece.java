@@ -30,6 +30,7 @@ public abstract class Piece implements Serializable {
             Move copy;
             try {
                 copy = move.deep_clone();
+                copy.set_name("test");
             } catch (ClassNotFoundException | IOException e) {
                 e.printStackTrace();
                 return null;

@@ -51,9 +51,8 @@ public class GameMaster implements Serializable {
 
     // * Test
     public void test(Board board) {
-        board.set_tile(new Rook(11, Team.BLACK), 11);
-        board.set_tile(new Rook(4, Team.BLACK), 4);
-        board.set_tile(new Rook(48, Team.BLACK), 48);
+        board.set_tile(new King(4, Team.BLACK), 4);
         board.set_tile(new King(60, Team.WHITE), 60);
+        board.set_tile(new Pawn(11, Team.WHITE), 11);
     }
 }

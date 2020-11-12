@@ -27,7 +27,7 @@ public class Tile implements Serializable {
     @Override
     public String toString() {
         if (is_empty()) return "Empty Tile";
-        return "Tile with " + this.piece;
+        return "Tile(" + BoardUtils.to_board_code(this.position) + ") with " + this.piece;
     }
 
     public String boardKey() {

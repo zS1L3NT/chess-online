@@ -7,6 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Scanner;
+
+import pieces.*;
 
 public class Board implements Serializable {
     /**
@@ -25,7 +28,7 @@ public class Board implements Serializable {
         set_name(name);
         game = new GameMaster();
         for (int i = 0; i < 64; i++)
-            empty_tile(i);
+            this.board[i] = new Tile(i, null);
         if (tiles.length == 1)
             board = tiles[0];
         else
@@ -100,20 +103,57 @@ public class Board implements Serializable {
         this.board[position] = new Tile(position, piece);
     }
 
-    public void empty_tile(int position) {
-        this.board[position] = new Tile(position, null);
-    }
-
     public Tile tile(int position) {
         return this.board[position];
     }
 
     public void execute(Move move) {
         Piece predator = tile(move.location()).piece();
-        this.empty_tile(move.location());
+
+        if (predator instanceof Pawn) {
+            Pawn pawn = (Pawn) predator;
+            if (pawn.promotion_exception(pawn.position()) && move.name().equals("main")) {
+                Tile tile = promote(pawn);
+                this.board[pawn.position()] = tile;
+                this.game.current_selected = predator = tile.piece();
+            }
+        }
+
+        this.board[move.location()] = new Tile(move.location(), null);
         this.set_tile(predator, move.destination());
         predator.set_position(move.destination());
         predator.add_move_count();
+    }
+
+    private Tile promote(Piece pawn) {
+        System.out.println("\nPromote Pawn to:");
+        System.out.println("Queen/Rook/Bishop/Knight");
+        for (;;) {
+            System.out.print("Type piece name: ");
+            String name = input().nextLine();
+            try {
+                name = name.toLowerCase();
+            } catch (Exception e) {
+                System.out.println("Invalid name");
+                continue;
+            }
+            if (name.equals("queen")) {
+                return new Tile(pawn.position(), new Queen(pawn.position(), pawn.team()));
+            } else if (name.equals("rook")) {
+                return new Tile(pawn.position(), new Rook(pawn.position(), pawn.team()));
+            } else if (name.equals("bishop")) {
+                return new Tile(pawn.position(), new Bishop(pawn.position(), pawn.team()));
+            } else if (name.equals("knight")) {
+                return new Tile(pawn.position(), new Knight(pawn.position(), pawn.team()));
+            } else {
+                System.out.println("Invalid name");
+                continue;
+            }
+        }
+    }
+
+    private static Scanner input() {
+        return new Scanner(System.in);
     }
 
     public Board deep_clone() throws IOException, ClassNotFoundException {

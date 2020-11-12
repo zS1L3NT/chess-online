@@ -31,10 +31,10 @@ public class King extends Piece {
                 if (test_tile.is_occupied()) {
                     Piece piece_on_tile = board.tile(test_position).piece();
                     if (piece_on_tile.team() != this.team()) {
-                        moves.add(new Move(board, this.position(), piece_on_tile.position()));
+                        moves.add(new Move("main", board, this.position(), piece_on_tile.position()));
                     }
                 } else {
-                    moves.add(new Move(board, this.position(), test_position));
+                    moves.add(new Move("main", board, this.position(), test_position));
                 }
             }
         }
