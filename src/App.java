@@ -1,4 +1,5 @@
 import board.*;
+import pieces.King;
 
 import java.util.List;
 import java.util.Scanner;
@@ -15,6 +16,7 @@ public class App {
         for (;;) {
             print_visuals(true);
 
+            // Check for checkmate or stalemate
             if (game.move_maker.all_safe_moves(board).size() == 0) {
                 if (game.move_maker.king_is_safe(board)) {
                     System.out.print(Color.YELLOW);
@@ -26,6 +28,25 @@ public class App {
                     System.out.print(Color.RESET);
                     System.out.println("Winner: " + game.move_maker.enemy() + "!");
                 }
+                return;
+            }
+
+            // Check if King and King are alone
+            int pieces = 0;
+            for (int i = 0; i < 64; i++) {
+                Tile tile = board.tile(i);
+
+                if (tile.is_empty())
+                    continue;
+                if (!(tile.piece() instanceof King))
+                    break;
+
+                pieces++;
+            }
+            if (pieces == 2) {
+                System.out.print(Color.BLUE);
+                System.out.println("Draw!");
+                System.out.print(Color.RESET);
                 return;
             }
 
