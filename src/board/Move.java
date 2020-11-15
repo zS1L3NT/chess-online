@@ -7,7 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-public class Move implements Serializable {
+public abstract class Move implements Serializable {
     /**
      *
      */
@@ -40,14 +40,6 @@ public class Move implements Serializable {
         return x;
     }
 
-    @Override
-    public String toString() {
-        if (this.board.tile(destination()).is_occupied())
-            return "Attack by " + this.board.tile(location()).piece() + " against " + this.board.tile(destination()).piece();
-        else
-            return "Move by " + this.board.tile(location()).piece() + " to " + BoardUtils.to_board_code(destination());
-    }
-
     public String name() {
         return this.name;
     }
@@ -72,5 +64,66 @@ public class Move implements Serializable {
         ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream in = new ObjectInputStream(bis);
         return (Move) in.readObject();
+    }
+
+    public static class EnPassant extends Move {
+
+        /**
+         *
+         */
+        private static final long serialVersionUID = 1L;
+        private Piece prey;
+
+        public EnPassant(String name, Board board, int location, int destination, Piece prey) {
+            super(name, board, location, destination);
+            this.prey = prey;
+        }
+
+        @Override
+        public String toString() {
+            return "En Passant by " + this.board().tile(this.location()) + " against " + prey;
+        }
+
+        public Piece prey() {
+            return prey;
+        }
+
+    }
+
+    public static class Attack extends Move {
+
+        /**
+         *
+         */
+        private static final long serialVersionUID = 1L;
+
+        public Attack(String name, Board board, int location, int destination) {
+            super(name, board, location, destination);
+        }
+
+        @Override
+        public String toString() {
+            return "Attack by " + this.board().tile(this.location()).piece() + " against "
+                    + this.board().tile(this.destination()).piece();
+        }
+
+    }
+
+    public static class Major extends Move {
+
+        /**
+         *
+         */
+        private static final long serialVersionUID = 1L;
+
+        public Major(String name, Board board, int location, int destination) {
+            super(name, board, location, destination);
+        }
+
+        @Override
+        public String toString() {
+            return "Major by " + this.board().tile(this.location()).piece() + " to " + this.destination();
+        }
+
     }
 }

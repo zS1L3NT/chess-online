@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import board.*;
-import board.Move;
+import board.Move.*;
 
 public class Queen extends Piece {
     /**
@@ -34,11 +34,11 @@ public class Queen extends Piece {
                     if (test_tile.is_occupied()) {
                         Piece piece_on_tile = board.tile(test_position).piece();
                         if (piece_on_tile.team() != this.team()) {
-                            moves.add(new Move("main", board, this.position(), piece_on_tile.position()));
+                            moves.add(new Attack("main", board, this.position(), piece_on_tile.position()));
                         }
                         break;
                     } else {
-                        moves.add(new Move("main", board, this.position(), test_position));
+                        moves.add(new Major("main", board, this.position(), test_position));
                     }
 
                 }

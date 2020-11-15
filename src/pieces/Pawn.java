@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import board.*;
-import board.Move;
+import board.Move.*;
 
 public class Pawn extends Piece {
     /**
@@ -27,26 +27,39 @@ public class Pawn extends Piece {
             Tile test_tile = board.tile(test_position);
             if (offset == 8 && test_tile.is_empty()) {
                 // * Single forward
-                moves.add(new Move("main", board, this.position(), test_position));
-            }
-            else if (offset == 16 && StartingException(position())) {
+                moves.add(new Major("main", board, this.position(), test_position));
+            } else if (offset == 16 && StartingException(position())) {
                 // * Double forward
                 // Check if the pawn has a clear jump path
                 Tile inbetween = board.tile(this.position() + offset * this.team().direction());
                 if (inbetween.is_empty() && test_tile.is_empty()) {
-                    moves.add(new Move("main", board, this.position(), test_position));
+                    moves.add(new Major("main", board, this.position(), test_position));
                 }
-            }
-            else if (offset == 7 && !SevenException(offset)) {
+            } else if (offset == 7 && !SevenException(offset)) {
                 // * Sideways Attack move
                 if (test_tile.is_occupied() && test_tile.piece().team() != this.team()) {
-                    moves.add(new Move("main", board, this.position(), test_tile.piece().position()));
+                    moves.add(new Attack("main", board, this.position(), test_tile.piece().position()));
                 }
-            }
-            else if (offset == 9 && !NineException(offset)) {
+            } else if (offset == 9 && !NineException(offset)) {
                 // * Sideways Attack move
                 if (test_tile.is_occupied() && test_tile.piece().team() != this.team()) {
-                    moves.add(new Move("main", board, this.position(), test_tile.piece().position()));
+                    moves.add(new Attack("main", board, this.position(), test_tile.piece().position()));
+                }
+            }
+            if (predator_en_passant_exception(this.position())) {
+                // In row ready for en passant
+                Tile left_tile = board.tile(this.position() + (1 * this.team().direction()));
+                Tile right_tile = board.tile(this.position() - (1 * this.team().direction()));
+
+                if (!NineException(this.position()) && left_tile.is_occupied() && left_tile.piece().move_count() == 1) {
+                    Piece left = left_tile.piece();
+                    int dest = this.position() + (9 * this.team().direction());
+                    moves.add(new EnPassant("main", board, this.position(), dest, left));
+                }
+                if (!SevenException(this.position()) && right_tile.is_occupied() && right_tile.piece().move_count() == 1) {
+                    Piece right = right_tile.piece();
+                    int dest = this.position() + (7 * this.team().direction());
+                    moves.add(new EnPassant("main", board, this.position(), dest, right));
                 }
             }
         }
@@ -63,14 +76,24 @@ public class Pawn extends Piece {
                 || (this.team().is_white() && BoardUtils.IN_SECOND_ROW(position));
     }
 
+    public boolean prey_en_passant_exception(int position) {
+        return (this.team().is_white() && BoardUtils.IN_FIFTH_ROW(position))
+                || (this.team().is_black() && BoardUtils.IN_FOURTH_ROW(position));
+    }
+
+    public boolean predator_en_passant_exception(int position) {
+        return (this.team().is_black() && BoardUtils.IN_FIFTH_ROW(position))
+                || (this.team().is_white() && BoardUtils.IN_FOURTH_ROW(position));
+    }
+
     private boolean SevenException(int offset) {
         return (BoardUtils.IN_EIGHTH_COL(this.position()) && this.team().is_white())
-            || (BoardUtils.IN_FIRST_COL(this.position()) && this.team().is_black());
+                || (BoardUtils.IN_FIRST_COL(this.position()) && this.team().is_black());
     }
 
     private boolean NineException(int offset) {
         return (BoardUtils.IN_FIRST_COL(this.position()) && this.team().is_white())
-            || (BoardUtils.IN_EIGHTH_COL(this.position()) && this.team().is_black());
+                || (BoardUtils.IN_EIGHTH_COL(this.position()) && this.team().is_black());
     }
 
     @Override
@@ -79,7 +102,8 @@ public class Pawn extends Piece {
     }
 
     public String boardKey() {
-        if (this.team().is_black()) return "♙";
+        if (this.team().is_black())
+            return "♙";
         return "♟";
     }
 

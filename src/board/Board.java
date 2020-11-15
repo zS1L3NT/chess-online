@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
 
+import board.Move.EnPassant;
 import pieces.*;
 
 public class Board implements Serializable {
@@ -123,6 +124,11 @@ public class Board implements Serializable {
         this.set_tile(predator, move.destination());
         predator.set_position(move.destination());
         predator.add_move_count();
+        
+        if (move instanceof EnPassant) {
+            EnPassant ep_move = (EnPassant) move;
+            this.board[ep_move.prey().position()] = new Tile(ep_move.prey().position(), null);
+        }
     }
 
     private Tile promote(Piece pawn) {
@@ -156,21 +162,13 @@ public class Board implements Serializable {
         return new Scanner(System.in);
     }
 
-    public ByteArrayOutputStream bos() throws IOException {
+    public Board deep_clone() throws IOException, ClassNotFoundException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(bos);
         out.writeObject(this);
-        return bos;
-    }
 
-    public Board decode(ByteArrayOutputStream bos) throws ClassNotFoundException, IOException {
         ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream in = new ObjectInputStream(bis);
         return (Board) in.readObject();
-    }
-
-    public Board deep_clone() throws IOException, ClassNotFoundException {
-        ByteArrayOutputStream bos = bos();
-        return decode(bos);
     }
 }

@@ -26,6 +26,14 @@ public class BoardUtils {
         return array_contains(fill_row(8), position);
     }
 
+    public static boolean IN_FOURTH_ROW(int position) {
+        return array_contains(fill_row(24), position);
+    }
+
+    public static boolean IN_FIFTH_ROW(int position) {
+        return array_contains(fill_row(32), position);
+    }
+
     public static boolean IN_SEVENTH_ROW(int position) {
         return array_contains(fill_row(48), position);
     }
