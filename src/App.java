@@ -118,6 +118,7 @@ public class App {
         List<Integer> safe_positions = game.current_selected.safe_positions(board);
         int destination;
 
+        System.out.println("Add brackets around tile to find out about the move");
         System.out.println("Type X to select another piece\n");
 
         for (;;) {
@@ -127,6 +128,30 @@ public class App {
             if (code.equals("x") || code.equals("X")) {
                 game.set_current_selected(null);
                 return null;
+            }
+
+            if (code.startsWith("(") && code.endsWith(")")) {
+                String cut = code.substring(1, code.length() - 1);
+                if (BoardUtils.is_valid_board_code(cut)) {
+                    destination = BoardUtils.to_position(cut);
+
+                    if (safe_positions.contains(destination)) {
+                        // Give move information
+                        for (int i = 0; i < safe_moves.size(); i++) {
+                            if (safe_moves.get(i).destination() == destination) {
+                                System.out.println(safe_moves.get(i));
+                            }
+                        }
+                        continue;
+                    } else {
+                        System.out.println("Invalid move!");
+                        continue;
+                    }
+
+                } else {
+                    System.out.println("Invalid board code!");
+                    continue;
+                }
             }
 
             if (!BoardUtils.is_valid_board_code(code)) {
@@ -139,18 +164,23 @@ public class App {
             // Check if item in safe_positions
             if (safe_positions.contains(destination))
                 break;
-            else
+            else {
                 System.out.println("Invalid move!");
-        }
-
-        // Find and return move in legal_moves
-        for (int i = 0; i < safe_moves.size(); i++) {
-            if (safe_moves.get(i).destination() == destination) {
-                return safe_moves.get(i);
+                continue;
             }
         }
 
-        return null;
+    // Find and return move in legal_moves
+    for(
+
+    int i = 0;i<safe_moves.size();i++)
+    {
+        if (safe_moves.get(i).destination() == destination) {
+            return safe_moves.get(i);
+        }
+    }
+
+    return null;
     }
 
     private final static void print_visuals(boolean color) {
