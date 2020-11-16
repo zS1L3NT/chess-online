@@ -1,5 +1,6 @@
 package pieces;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +24,12 @@ public class King extends Piece {
         for (int offset : directions) {
             int test_position = this.position() + offset;
 
-            if (ColExceptions(position(), offset)) continue;
+            if (ColExceptions(position(), offset))
+                continue;
 
             if (BoardUtils.is_valid_position(test_position)) {
                 final Tile test_tile = board.tile(test_position);
-                
+
                 if (test_tile.is_occupied()) {
                     Piece piece_on_tile = board.tile(test_position).piece();
                     if (piece_on_tile.team() != this.team()) {
@@ -35,6 +37,58 @@ public class King extends Piece {
                     }
                 } else {
                     moves.add(new Major("main", board, this.position(), test_position));
+                }
+            }
+        }
+
+        if (this.move_count() == 0) {
+            Tile left_tile = board.tile(this.position() - 4);
+            Tile right_tile = board.tile(this.position() + 3);
+            if (left_tile.is_occupied() && left_tile.piece().move_count() == 0 && left_tile.piece() instanceof Rook) {
+                Piece left = left_tile.piece();
+                boolean piece_between = false;
+                for (int i = -3; i < 0; i++) {
+                    Tile tile = board.tile(this.position() + i);
+                    if (tile.is_occupied())
+                        piece_between = true;
+                }
+
+                if (!piece_between) {
+                    try {
+                        Move move_1 = (new Major("test", board, this.position(), this.position() - 1)).deep_clone();
+                        Move move_2 = (new Major("test", board, this.position(), this.position() - 2)).deep_clone();
+                        Board test_1= move_1.simulate(board);
+                        Board test_2 = move_2.simulate(board);
+                        if (this.team().king_is_safe(test_1) && this.team().king_is_safe(test_2)) {
+                            moves.add(new Castle("main", board, this.position(), this.position() - 2, left, left.position() + 3));
+                        }
+                    } catch (ClassNotFoundException | IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            if (right_tile.is_occupied() && right_tile.piece().move_count() == 0
+                    && right_tile.piece() instanceof Rook) {
+                Piece right = right_tile.piece();
+                boolean piece_between = false;
+                for (int i = 1; i < 3; i++) {
+                    Tile tile = board.tile(this.position() + i);
+                    if (tile.is_occupied())
+                        piece_between = true;
+                }
+
+                if (!piece_between) {
+                    try {
+                        Move move_1 = (new Major("test", board, this.position(), this.position() + 1)).deep_clone();
+                        Move move_2 = (new Major("test", board, this.position(), this.position() + 2)).deep_clone();
+                        Board test_1= move_1.simulate(board);
+                        Board test_2 = move_2.simulate(board);
+                        if (this.team().king_is_safe(test_1) && this.team().king_is_safe(test_2)) {
+                            moves.add(new Castle("main", board, this.position(), this.position() + 2, right, right.position() -2));
+                        }
+                    } catch (ClassNotFoundException | IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -62,7 +116,8 @@ public class King extends Piece {
     }
 
     public String boardKey() {
-        if (this.team().is_black()) return "♔";
+        if (this.team().is_black())
+            return "♔";
         return "♚";
     }
 

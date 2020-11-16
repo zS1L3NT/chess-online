@@ -122,7 +122,38 @@ public abstract class Move implements Serializable {
 
         @Override
         public String toString() {
-            return "Major by " + this.board().tile(this.location()).piece() + " to " + this.destination();
+            return "Major by " + this.board().tile(this.location()).piece() + " to " + BoardUtils.to_board_code(this.destination());
+        }
+
+    }
+
+    public static class Castle extends Move {
+
+        /**
+         *
+         */
+        private static final long serialVersionUID = 1L;
+        private Piece rook;
+        private int rook_dest;
+
+        public Castle(String name, Board board, int location, int destination, Piece rook, int rook_dest) {
+            super(name, board, location, destination);
+            this.rook = rook;
+            this.rook_dest = rook_dest;
+        }
+
+        public Piece rook() {
+            return this.rook;
+        }
+
+        public int rook_dest() {
+            return this.rook_dest;
+        }
+
+        @Override
+        public String toString() {
+            String direction = this.rook.position() < this.location() ? "Left" : "Right";
+            return direction + " Castle by " + this.board().tile(this.location()).piece() + " and " + this.rook();
         }
 
     }

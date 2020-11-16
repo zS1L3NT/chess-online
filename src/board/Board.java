@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
 
-import board.Move.EnPassant;
+import board.Move.*;
 import pieces.*;
 
 public class Board implements Serializable {
@@ -126,8 +126,18 @@ public class Board implements Serializable {
         predator.add_move_count();
         
         if (move instanceof EnPassant) {
-            EnPassant ep_move = (EnPassant) move;
-            this.board[ep_move.prey().position()] = new Tile(ep_move.prey().position(), null);
+            EnPassant enpassant = (EnPassant) move;
+            this.board[enpassant.prey().position()] = new Tile(enpassant.prey().position(), null);
+        }
+
+        if (move instanceof Castle) {
+            Castle castle = (Castle) move;
+            Piece rook = castle.rook();
+
+            this.board[castle.rook().position()] = new Tile(castle.rook().position(), null);
+            this.set_tile(rook, castle.rook_dest());
+            castle.rook().set_position(castle.rook_dest());
+            castle.rook().add_move_count();
         }
     }
 
