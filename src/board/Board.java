@@ -27,7 +27,7 @@ public class Board implements Serializable {
 
     public Board(String name, Tile[]... tiles) {
         set_name(name);
-        game = new GameMaster();
+        game = new GameMaster(this);
         for (int i = 0; i < 64; i++)
             this.board[i] = new Tile(i, null);
         if (tiles.length == 1)

@@ -121,4 +121,8 @@ public class King extends Piece {
         return "♚";
     }
 
+    public String typeKey() {
+        return "King";
+    }
+
 }

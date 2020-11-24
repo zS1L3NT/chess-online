@@ -70,6 +70,8 @@ public abstract class Piece implements Serializable {
 
     public abstract String boardKey();
 
+    public abstract String typeKey();
+
     public int position() {
         return this.position;
     }

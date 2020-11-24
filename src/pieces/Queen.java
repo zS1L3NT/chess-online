@@ -71,4 +71,8 @@ public class Queen extends Piece {
         if (this.team().is_black()) return "♕";
         return "♛";
     }
+
+    public String typeKey() {
+        return "Queen";
+    }
 }

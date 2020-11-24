@@ -127,6 +127,45 @@ public enum Team {
         return this == WHITE ? BLACK : WHITE;
     }
 
+    public boolean can_checkmate(Board board) {
+        List<String> types = new ArrayList<String>();
+
+        for (int i = 0; i < 64; i++) {
+            Tile tile = board.tile(i);
+
+            if (tile.is_occupied()) {
+                Piece piece = tile.piece();
+                if (piece.team() == this) {
+                    types.add(piece.typeKey());
+                }
+            }
+        }
+
+        // King alone
+        if (types.size() == 1) return false;
+
+        // King and 2 Knights
+        if (types.size() == 3 && frequency(types, "Knight") == 2) return false;
+
+        // King and 1 Knight
+        if (types.size() == 2 & frequency(types, "Knight") == 1) return false;
+
+        // King and 1 Bishop
+        if (types.size() == 2 & frequency(types, "Bishop") == 1) return false;
+
+        return true;
+    }
+
+    private <T> int frequency(List<T> list, T value) {
+        int count = 0;
+
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) == value) count++;
+        }
+
+        return count;
+    }
+
     @Override
     public abstract String toString();
 }

@@ -107,4 +107,8 @@ public class Pawn extends Piece {
         return "♟";
     }
 
+    public String typeKey() {
+        return "Pawn";
+    }
+
 }

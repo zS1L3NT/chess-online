@@ -76,4 +76,8 @@ public class Knight extends Piece {
         return "♞";
     }
 
+    public String typeKey() {
+        return "Knight";
+    }
+
 }

@@ -71,4 +71,9 @@ public class Bishop extends Piece {
         if (this.team().is_black()) return "♗";
         return "♝";
     }
+
+    @Override
+    public String typeKey() {
+        return "Bishop";
+    }
 }
