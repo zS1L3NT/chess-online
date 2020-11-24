@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -43,6 +44,16 @@ public class Board implements Serializable {
         if (game.current_selected != null)
             piece_safe_moves = game.current_selected.safe_moves(this);
 
+        List<Piece> predators;
+        List<Integer> predator_positions = new ArrayList<Integer>();
+        if (!game.move_maker.king_is_safe(this)) {
+            predators = game.move_maker.king_predators(this);
+
+            for (int k = 0; k < predators.size(); k++) {
+                predator_positions.add(predators.get(k).position());
+            }
+        }
+
         for (int i = 0; i < 8; i++) {
             int col = i * 8;
 
@@ -63,6 +74,10 @@ public class Board implements Serializable {
                             Move move = safe_moves.get(k);
                             if (tile.position() == move.location())
                                 System.out.print(Color.GREEN_BACKGROUND);
+                        }
+                        if (!game.move_maker.king_is_safe(this)) {
+                            if (predator_positions.contains(tile.position()))
+                                System.out.print(Color.RED_BACKGROUND);
                         }
                     } else {
                         for (int k = 0; k < piece_safe_moves.size(); k++) {
@@ -124,7 +139,7 @@ public class Board implements Serializable {
         this.set_tile(predator, move.destination());
         predator.set_position(move.destination());
         predator.add_move_count();
-        
+
         if (move instanceof EnPassant) {
             EnPassant enpassant = (EnPassant) move;
             this.board[enpassant.prey().position()] = new Tile(enpassant.prey().position(), null);

@@ -26,19 +26,19 @@ public class GameMaster implements Serializable {
         this.move_maker = this.move_maker.is_white() ? Team.BLACK : Team.WHITE;
     }
 
-    public boolean will_end() {
+    public boolean test_if_will_end() {
         if (this.move_maker.all_safe_moves(this.board).size() == 0) {
             if (this.move_maker.king_is_safe(this.board)) {
                 System.out.print(Color.YELLOW);
                 System.out.println("Stalemate!");
                 System.out.print(Color.RESET);
-                return true;
+                System.exit(1);
             } else {
                 System.out.print(Color.RED);
                 System.out.println("Checkmate!");
                 System.out.print(Color.RESET);
                 System.out.println("Winner: " + this.move_maker.enemy() + "!");
-                return true;
+                System.exit(1);
             }
         }
 
@@ -46,7 +46,7 @@ public class GameMaster implements Serializable {
             System.out.print(Color.BLUE);
             System.out.println("Draw!");
             System.out.print(Color.RESET);
-            return true;
+            System.exit(1);
         }
         
 
@@ -82,8 +82,5 @@ public class GameMaster implements Serializable {
     public void test(Board board) {
         board.set_tile(new King(4, Team.BLACK), 4);
         board.set_tile(new King(60, Team.WHITE), 60);
-        board.set_tile(new Rook(2, Team.WHITE), 2);
-        board.set_tile(new Rook(11, Team.WHITE), 11);
-        board.set_tile(new Knight(56, Team.WHITE), 56);
     }
 }

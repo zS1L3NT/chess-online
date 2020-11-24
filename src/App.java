@@ -15,7 +15,7 @@ public class App {
         for (;;) {
             print_visuals(true);
 
-            if (game.will_end()) return;
+            game.test_if_will_end();
 
             game.set_current_selected(select_piece(board));
 
@@ -42,9 +42,19 @@ public class App {
     public final static Piece select_piece(Board board) {
         Piece piece;
 
+        System.out.println("Type RESIGN to end the game\n");
+
         for (;;) {
             System.out.print("Select Piece to move: ");
             String code = input().nextLine();
+
+            if (code.equals("RESIGN") || code.equals("resign")) {
+                System.out.print(Color.RED);
+                System.out.println("\nYou resigned");
+                System.out.print(Color.RESET);
+                System.out.println("Winner: " + game.move_maker.enemy() + "!");
+                System.exit(1);
+            }
 
             if (!BoardUtils.is_valid_board_code(code)) {
                 System.out.println("Invalid board code!");

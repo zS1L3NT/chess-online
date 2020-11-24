@@ -110,17 +110,20 @@ public enum Team {
     }
 
     public boolean king_is_safe(Board board) {
-        return is_safe(board, king_position(board));
+        return king_predators(board).size() == 0;
     }
 
-    public boolean is_safe(Board board, int position) {
+    public List<Piece> king_predators(Board board) {
         List<Move> enemy_moves = enemy().all_legal_moves(board);
+        List<Piece> predators = new ArrayList<Piece>();
+
         for (int i = 0; i < enemy_moves.size(); i++) {
             Move move = enemy_moves.get(i);
-            if (move.destination() == position)
-                return false;
+            if (move.destination() == king_position(board))
+                predators.add(board.tile(move.location()).piece());
         }
-        return true;
+
+        return predators;
     }
 
     public Team enemy() {
