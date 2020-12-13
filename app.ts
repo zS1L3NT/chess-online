@@ -29,6 +29,10 @@ interface Game {
 	blackMove: string
 }
 
+app.get("/Start", (_req, res) => {
+	return res.status(200).send()
+})
+
 /**
  * Callback to start connection with new Client
  */
