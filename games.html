@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="/socket.io/socket.io.js"></script>
+	<title>Games statistics</title>
+</head>
+<body>
+	<pre id="games"></pre>
+</body>
+<script>
+	const socket = io()
+	socket.on('games', games => document.getElementById('games').innerHTML = games)
+</script>
+</html>
