@@ -80,9 +80,9 @@ public class HTTP {
      */
     private static OkHttpClient longClient() {
         OkHttpClient client = new OkHttpClient();
-        client.setReadTimeout(30, TimeUnit.SECONDS);
-        client.setWriteTimeout(30, TimeUnit.SECONDS);
-        client.setConnectTimeout(30, TimeUnit.SECONDS);
+        client.setReadTimeout(5, TimeUnit.MINUTES);
+        client.setWriteTimeout(5, TimeUnit.MINUTES);
+        client.setConnectTimeout(5, TimeUnit.MINUTES);
         return client;
     }
 

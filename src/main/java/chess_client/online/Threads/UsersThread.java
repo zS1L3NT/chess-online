@@ -47,6 +47,10 @@ public class UsersThread extends Thread {
     public List<User> getUsers() {
         if (this.data == "")
             return new ArrayList<User>();
+        if (this.data == "auth/user-not-found") {
+            System.out.println("Ping more than 3 seconds, disconnecting...");
+            System.exit(0);
+        }
         try {
             // Gets current array of online users from server
             JSONArray arr = new JSONArray(this.data);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="chess_client.AppTest" time="0.091" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="chess_client.AppTest" time="0.097" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="15"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="SG"/>
     <property name="sun.boot.library.path" value="D:\apps\Java\jdk\bin"/>
-    <property name="sun.java.command" value="C:\Users\zecha\AppData\Local\Temp\surefire15745934837721948252\surefirebooter6037434214079786923.jar C:\Users\zecha\AppData\Local\Temp\surefire15745934837721948252 2020-12-10T15-02-11_188-jvmRun1 surefire4818620151834026531tmp surefire_06345720601549116276tmp"/>
+    <property name="sun.java.command" value="C:\Users\zecha\AppData\Local\Temp\surefire12110215935176821054\surefirebooter16661831454934938601.jar C:\Users\zecha\AppData\Local\Temp\surefire12110215935176821054 2020-12-13T14-46-20_367-jvmRun1 surefire15455737714363526968tmp surefire_03475572654959309921tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="D:\code\java\chess_client\target\test-classes;D:\code\java\chess_client\target\classes;C:\Users\zecha\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\zecha\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\zecha\.m2\repository\com\squareup\okhttp\okhttp\2.7.5\okhttp-2.7.5.jar;C:\Users\zecha\.m2\repository\com\squareup\okio\okio\1.6.0\okio-1.6.0.jar;C:\Users\zecha\.m2\repository\org\json\json\20201115\json-20201115.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\zecha\AppData\Local\Temp\surefire15745934837721948252\surefirebooter6037434214079786923.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\zecha\AppData\Local\Temp\surefire12110215935176821054\surefirebooter16661831454934938601.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="15.0.1+9-18"/>
@@ -55,5 +55,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="59.0"/>
   </properties>
-  <testcase name="shouldAnswerWithTrue" classname="chess_client.AppTest" time="0.003"/>
+  <testcase name="shouldAnswerWithTrue" classname="chess_client.AppTest" time="0.004"/>
 </testsuite>

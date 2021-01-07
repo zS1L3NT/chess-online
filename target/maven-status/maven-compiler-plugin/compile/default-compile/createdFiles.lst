@@ -8,7 +8,6 @@ chess_client\board\Move$Attack.class
 chess_client\board\Tile.class
 chess_client\board\GameMaster.class
 chess_client\board\Move.class
-chess_client\Helper.class
 chess_client\online\Threads\ConnectionThread.class
 chess_client\board\Piece.class
 chess_client\online\Threads\GameThread.class
