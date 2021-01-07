@@ -92,14 +92,14 @@ app.get("/Connected", (req, res) => {
 
 	if (User) {
 		User.connections.set(User.connections.get() + 0.25)
-		time(5000).then(() => {
+		time(10000).then(() => {
 			res.status(200).send()
 
 			User.connections.waitForChange().then(() => {
 				reset = false
 			})
 
-			time(1000).then(() => {
+			time(3000).then(() => {
 				if (reset) {
 					// Remove user
 					const newUsers = ServerUsers.get().filter(
