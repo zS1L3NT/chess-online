@@ -29,6 +29,14 @@ interface Game {
 	blackMove: string
 }
 
+app.get("/", (_req, res) => {
+	res.sendFile(path.join(__dirname, "index.html"))
+})
+
+app.get("/chess_client.jar", (_req, res) => {
+	res.download(path.join(__dirname, "chess_client.jar"))
+})
+
 app.get("/Start", (_req, res) => {
 	return res.status(200).send()
 })
