@@ -7,7 +7,7 @@ import chess_client.online.HTTP;
 import chess_client.online.Menus.UsnmSelectMenu;
 
 public class App {
-    public static String host = "http://localhost:5000";
+    public static String host = "http://chess-http.bubblejs.com";
 
     public static void main(String[] args) throws IOException {
         System.out.println("Starting up the server...");
