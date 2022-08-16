@@ -10,8 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import board.Move.*;
-import pieces.*;
+import board.Move.Castle;
+import board.Move.EnPassant;
+import pieces.Bishop;
+import pieces.Knight;
+import pieces.Pawn;
+import pieces.Queen;
+import pieces.Rook;
 
 public class Board implements Serializable {
     /**
@@ -38,7 +43,7 @@ public class Board implements Serializable {
     }
 
     public void print(boolean color) {
-        System.out.println("  +----+----+----+----+----+----+----+----+");
+        System.out.println("  +---+---+---+---+---+---+---+---+");
         List<Move> safe_moves = game.move_maker.all_safe_moves(this);
         List<Move> piece_safe_moves = null;
         if (game.current_selected != null)
@@ -93,21 +98,21 @@ public class Board implements Serializable {
                 }
 
                 if (tile.is_occupied())
-                    System.out.print(tile.boardKey() + " ");
+                    System.out.print(tile.boardKey());
                 else
-                    System.out.print("  ");
+                    System.out.print(" ");
                 System.out.print(Color.RESET);
 
                 System.out.print(" ");
 
             }
             System.out.println("|");
-            System.out.println("  +----+----+----+----+----+----+----+----+");
+            System.out.println("  +---+---+---+---+---+---+---+---+");
         }
         if (game.move_maker.is_white())
-            System.out.println("    A    B    C    D    E    F    G    H");
+            System.out.println("    A   B   C   D   E   F   G   H");
         else
-            System.out.println("    H    G    F    E    D    C    B    A ");
+            System.out.println("    H   G   F   E   D   C   B   A");
         System.out.println("\n");
     }
 

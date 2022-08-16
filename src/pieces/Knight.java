@@ -3,8 +3,14 @@ package pieces;
 import java.util.ArrayList;
 import java.util.List;
 
-import board.*;
-import board.Move.*;
+import board.Board;
+import board.BoardUtils;
+import board.Move;
+import board.Move.Attack;
+import board.Move.Major;
+import board.Piece;
+import board.Team;
+import board.Tile;
 
 public class Knight extends Piece {
     /**
@@ -72,8 +78,8 @@ public class Knight extends Piece {
     }
 
     public String boardKey() {
-        if (this.team().is_black()) return "♘";
-        return "♞";
+        if (this.team().is_black()) return "n";
+        return "N";
     }
 
     public String typeKey() {

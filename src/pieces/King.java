@@ -4,8 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import board.*;
-import board.Move.*;
+import board.Board;
+import board.BoardUtils;
+import board.Move;
+import board.Move.Attack;
+import board.Move.Castle;
+import board.Move.Major;
+import board.Piece;
+import board.Team;
+import board.Tile;
 
 public class King extends Piece {
     /**
@@ -117,8 +124,8 @@ public class King extends Piece {
 
     public String boardKey() {
         if (this.team().is_black())
-            return "♔";
-        return "♚";
+            return "k";
+        return "K";
     }
 
     public String typeKey() {
