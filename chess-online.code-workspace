@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": "java-chess-offline"
+		},
+		{
+			"path": "java-chess-online"
+		},
+		{
+			"path": "ts-chess-online"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/Thumbs.db": true,
+			"java-chess-offline": true,
+			"java-chess-online": true,
+			"ts-chess-online": true
+		}
+	}
+}
