@@ -7,7 +7,7 @@
 			"path": "java-chess-online"
 		},
 		{
-			"path": "ts-chess-online"
+			"path": "web-chess-online"
 		},
 		{
 			"path": "."
@@ -23,7 +23,7 @@
 			"**/Thumbs.db": true,
 			"java-chess-offline": true,
 			"java-chess-online": true,
-			"ts-chess-online": true
+			"web-chess-online": true
 		}
 	}
 }
